@@ -57,12 +57,12 @@ def display_poem():
     # --- The Poem ---
     # Cleaned up the poem string for consistent formatting.
     poem_text = """
-After all we've said till now,
+After all that I've said till now,
 I still find myself short on words somehow.
 Can’t help but wonder when and where,
 Two starry minds found this bond so rare. 🌌<br>
 
-From just some casual IG chats,
+From just some casual in-game chats,
 To being mirrors—reflecting facts.
 Calling out flaws, but with gentle care,
 Helping each other steer clear of despair.
