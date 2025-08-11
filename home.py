@@ -86,7 +86,7 @@ def app():
     </style>
     """, unsafe_allow_html=True)
 
-    st.title("A Special Surprise for You 🎂")
+    st.title("A Little Surprise for You 🎂")
 
     # --- Session State Initialization ---
     if "logged_in" not in st.session_state:

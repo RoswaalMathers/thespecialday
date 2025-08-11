@@ -23,7 +23,7 @@ class MultiApp:
         if st.session_state.logged_in:
             self.apps = [
                 {"title": "Home", "function": home.app},
-                {"title": "Poem", "function": poem.display_poem}
+                {"title": "Surprise", "function": poem.display_poem}
                 
             ]
         else:
@@ -53,8 +53,8 @@ class MultiApp:
 
         # only display the menu if the user is logged in
         if st.session_state.logged_in:
-            menu_items = ["Home","Poem"]
-            icons_list = ["house", "book"]
+            menu_items = ["Home","Surprise"]
+            icons_list = ["house", "gift"]
         else:
             menu_items = ["Home"]
             icons_list = ["house"]

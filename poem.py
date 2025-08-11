@@ -1,20 +1,35 @@
 import streamlit as st
+import base64
+import textwrap  # Import the textwrap library
+from pathlib import Path
+
+def image_to_base64(image_path):
+    """Converts a local image file to a base64 string for embedding in HTML."""
+    try:
+        with open(image_path, "rb") as img_file:
+            return base64.b64encode(img_file.read()).decode()
+    except FileNotFoundError:
+        return None
 
 def display_poem():
     """
-    Displays the title and the styled, animated poem in the Streamlit app.
+    Displays the title, styled poem, and a two-column birthday wish section.
     """
     # --- STYLING (CSS) ---
-    # This block applies the same modern, animated style as the home page.
     st.markdown("""
     <style>
     /* Import a Google Font for the title */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Great+Vibes&display=swap');
 
     /* Keyframes for animations */
-    @keyframes glow {
+    @keyframes glow-pink {
         0%, 100% { text-shadow: 0 0 10px #ff69b4, 0 0 12px #ff69b4, 0 0 15px #ff69b4; }
         50% { text-shadow: 0 0 15px #ff85c1, 0 0 20px #ff85c1, 0 0 25px #ff85c1; }
+    }
+    
+    @keyframes glow-gold {
+        0%, 100% { text-shadow: 0 0 10px #ffd700, 0 0 12px #ffd700, 0 0 15px #ffd700; }
+        50% { text-shadow: 0 0 15px #ffec8b, 0 0 20px #ffec8b, 0 0 25px #ffec8b; }
     }
 
     @keyframes fadeIn {
@@ -27,72 +42,124 @@ def display_poem():
         font-family: 'Poppins', sans-serif;
         text-align: center;
         color: #e0e0e0;
-        animation: glow 3s ease-in-out infinite;
+        animation: glow-pink 3s ease-in-out infinite;
     }
 
-    /* Styling for the poem container card */
-    .poem-container {
-        background: rgba(40, 40, 60, 0.6); /* Semi-transparent background */
-        backdrop-filter: blur(10px); /* Frosted glass effect */
+    /* Styling for the main content cards */
+    .card {
+        background: rgba(40, 40, 60, 0.6);
+        backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 15px;
         padding: 2rem;
         width: 100%;
-        max-width: 600px; /* Made slightly wider for the poem */
+        max-width: 700px;
         margin: 2rem auto;
         animation: fadeIn 0.8s ease-out;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        color: #e0e0e0; /* Light text color for dark background */
-        font-family: 'Georgia', serif; /* Keep the classic font for the poem */
+    }
+    
+    /* Poem container specific styles */
+    .poem-container {
+        color: #e0e0e0;
+        font-family: 'Georgia', serif;
         font-size: 1.15em;
         line-height: 1.8;
         text-align: center;
-        white-space: pre-wrap; /* Preserves line breaks from the string */
+        white-space: pre-wrap;
+    }
+    
+    /* Two-column layout styling */
+    .two-column-layout {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+    .image-column {
+        flex: 2;
+    }
+    .text-column {
+        flex: 3;
+    }
+    .column-image {
+        width: 100%;
+        border-radius: 15px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+    .birthday-title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 3em;
+        text-align: center;
+        color: #f0e68c;
+        animation: glow-gold 3s ease-in-out infinite;
+        line-height: 1.2;
     }
     </style>
     """, unsafe_allow_html=True)
 
     st.title("A Special Poem for You 🎂")
 
-    # --- The Poem ---
-    # Cleaned up the poem string for consistent formatting.
+    # --- The Poem Card ---
     poem_text = """
-After all that I've said till now,
-I still find myself short on words somehow.
-Can’t help but wonder when and where,
-Two starry minds found this bond so rare. 🌌<br>
+    After all that I've said till now,
+    I still find myself short on words somehow.
+    Can’t help but wonder when and where,
+    Two starry minds found this bond so rare. 🌌<br>
 
-From just some casual in-game chats,
-To being mirrors—reflecting facts.
-Calling out flaws, but with gentle care,
-Helping each other steer clear of despair.
+    From just some casual in-game chats,
+    To being mirrors—reflecting facts.
+    Calling out flaws, but with gentle care,
+    Helping each other steer clear of despair.
 
-It wasn’t just fate or passing chance,
-That pulled us into this shared expanse.
-Some stars aligned, in a quiet way,
-And wrote this friendship into play. ✨
+    It wasn’t just fate or passing chance,
+    That pulled us into this shared expanse.
+    Some stars aligned, in a quiet way,
+    And wrote this friendship into play. ✨
 
-You talk with heart, no masks, no games,
-Just honesty running through your veins.
-So rare it feels, so clean, so true—
-I trust the world a bit more, 'cause of you.
+    You talk with heart, no masks, no games,
+    Just honesty running through your veins.
+    So rare it feels, so clean, so true—
+    I trust the world a bit more, 'cause of you.
 
-You call me senpai, and I chuckle inside,
-Your respect is loud, no need to hide.
-And yet we banter, like little kids,
-Trading chaos and sussy skits. 😆
+    You call me senpai, and I chuckle inside,
+    Your respect is loud, no need to hide.
+    And yet we banter, like little kids,
+    Trading chaos and sussy skits. 😆
 
-From 3AM talks that wander and flow,
-To quiet times where no words show—
-I’ve found a peace in you, a light,
-That makes even darkest nights feel right. 🌙
+    From 3AM talks that wander and flow,
+    To quiet times where no words show—
+    I’ve found a peace in you, a light,
+    That makes even darkest nights feel right. 🌙
 
-So here’s to you, Abhi—my constant star,
-The best person I've got, by far.
-On your birthday, I hope you see,
-How much your presence means to me. 🎂💫
-"""
+    So here’s to you, Abhi—my constant star,
+    The best person I've got, by far.
+    On your birthday, I hope you see,
+    How much your presence means to me. 🎂💫
+    """
+    
+    # FIX: Use textwrap.dedent to remove unwanted leading whitespace
+    clean_poem = textwrap.dedent(poem_text).strip()
+    
+    st.markdown(f'<div class="card poem-container">{clean_poem}</div>', unsafe_allow_html=True)
 
-    # --- Displaying the Poem in the Styled Box ---
-    st.markdown(f'<div class="poem-container">{poem_text}</div>', unsafe_allow_html=True)
+    # --- Two-Column Birthday Wish and Image Card ---
+    image_path = "abhi.png"
+    base64_image = image_to_base64(image_path)
+
+    if base64_image:
+        birthday_card_html = f"""
+        <div class="card">
+            <div class="two-column-layout">
+                <div class="image-column">
+                    <img src="data:image/png;base64,{base64_image}" class="column-image">
+                </div>
+                <div class="text-column">
+                    <h2 class="birthday-title">Happiest Birthday sweet lil abhi ✨</h2>
+                </div>
+            </div>
+        </div>
+        """
+        st.markdown(birthday_card_html, unsafe_allow_html=True)
+    else:
+        st.warning(f"Could not find '{image_path}'. Make sure it's in the same folder as your script.")
 
