@@ -10,11 +10,35 @@ def image_to_base64(image_path):
             return base64.b64encode(img_file.read()).decode()
     except FileNotFoundError:
         return None
+    
+def autoplay_audio(file_path: str):
+    """
+    Plays an audio file automatically in a Streamlit app.
+    """
+    # Open the audio file in binary read mode
+    with open(file_path, "rb") as f:
+        # Read the file and encode it to Base64
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+        
+        # Create the HTML for the audio player
+        md = f"""
+            <audio autoplay="true" loop="true">
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        # Embed the HTML in the Streamlit app
+        st.markdown(
+            md,
+            unsafe_allow_html=True,
+        )
 
 def display_poem():
-    """
-    Displays the title, styled poem, and a two-column birthday wish section.
-    """
+    # Play the audio file automatically
+    audio_file = "happybirthday.mp3"
+    autoplay_audio(audio_file)
+
+
     # --- STYLING (CSS) ---
     st.markdown("""
     <style>
