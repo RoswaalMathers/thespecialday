@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-import home, poem, media
+import home, poem
 
 #set page config
 try:
@@ -23,8 +23,7 @@ class MultiApp:
         if st.session_state.logged_in:
             self.apps = [
                 {"title": "Home", "function": home.app},
-                {"title": "Poem", "function": poem.display_poem},
-                {"title": "Media", "function": media.show_media}
+                {"title": "Poem", "function": poem.display_poem}
                 
             ]
         else:
@@ -54,9 +53,8 @@ class MultiApp:
 
         # only display the menu if the user is logged in
         if st.session_state.logged_in:
-            menu_items = ["Home","Poem","Media"]
-            icons_list = ["house", "book", "image"]
-        
+            menu_items = ["Home","Poem"]
+            icons_list = ["house", "book"]
         else:
             menu_items = ["Home"]
             icons_list = ["house"]
