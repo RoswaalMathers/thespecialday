@@ -1,5 +1,2 @@
 streamlit
 streamlit-option-menu
-base64
-pathlib
-textwrap
